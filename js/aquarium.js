@@ -277,24 +277,173 @@ const Aquarium = (() => {
     ===========================================
     */
 
-    function open(id) {
+   /*
+===========================================
+ Aquarium öffnen
+===========================================
+*/
 
-        const aquarium =
-            Data.getAquarium(id);
+function open(id) {
 
-        if (!aquarium)
-            return;
+    const aquarium = Data.getAquarium(id);
 
-        console.log("Aquarium geöffnet:", aquarium);
+    if (!aquarium)
+        return;
 
-        /*
-         Detailseite folgt
-         im nächsten Schritt.
-        */
+    renderDetail(aquarium);
 
-    }
+}
 
-    /*
+/*
+===========================================
+ Detailansicht
+===========================================
+*/
+
+function renderDetail(aquarium) {
+
+    container.innerHTML = "";
+
+    const health = Data.calculateHealth(aquarium);
+
+    const page = document.createElement("section");
+
+    page.className = "aquarium-detail";
+
+    page.innerHTML = `
+
+        <button class="button back-button">
+
+            ← Dashboard
+
+        </button>
+
+        <div class="detail-header">
+
+            <div class="detail-photo">
+
+                ${
+                    aquarium.photo
+
+                    ?
+
+                    `<img src="${aquarium.photo}" alt="${escapeHtml(aquarium.name)}">`
+
+                    :
+
+                    `<span class="material-symbols-rounded">
+                        aquarium
+                    </span>`
+                }
+
+            </div>
+
+            <h1>${escapeHtml(aquarium.name)}</h1>
+
+            <p>📍 ${escapeHtml(aquarium.location || "Kein Standort")}</p>
+
+            <p>💧 ${aquarium.volume} Liter</p>
+
+            <div class="health">
+
+                ❤️ ${health} %
+
+            </div>
+
+        </div>
+
+        <section class="detail-section">
+
+            <h2>Wartungen</h2>
+
+            ${createMaintenanceList(aquarium)}
+
+        </section>
+
+        <section class="detail-section">
+
+            <h2>Schnellzugriff</h2>
+
+            <div class="quick-grid">
+
+                <button class="button">💧 Wasserwechsel</button>
+
+                <button class="button">🌱 Düngung</button>
+
+                <button class="button">🧪 Wasserwerte</button>
+
+                <button class="button">🧽 Filter</button>
+
+            </div>
+
+        </section>
+
+    `;
+
+    container.appendChild(page);
+
+    page.querySelector(".back-button")
+        .addEventListener("click", render);
+/*
+===========================================
+ Wartungsliste
+===========================================
+*/
+
+function createMaintenanceList(aquarium) {
+
+    return aquarium.maintenance.map(task => {
+
+        const status =
+            Data.getMaintenanceStatus(task);
+
+        return `
+
+            <div class="maintenance-item">
+
+                <div>
+
+                    <strong>
+
+                        ${escapeHtml(task.name)}
+
+                    </strong>
+
+                    <br>
+
+                    Intervall:
+                    ${task.interval} Tage
+
+                </div>
+
+                <div>
+
+                    ${
+                        status.due
+
+                        ?
+
+                        `<span class="danger">
+                            Überfällig
+                        </span>`
+
+                        :
+
+                        `<span class="success">
+                            OK
+                        </span>`
+                    }
+
+                </div>
+
+            </div>
+
+        `;
+
+    }).join("");
+
+}
+}
     ===========================================
      HTML absichern
     ===========================================
