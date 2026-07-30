@@ -1,1 +1,412 @@
+/*
+===========================================
+ AquaTracker 4.0
+ app.css
+===========================================
+*/
 
+*,
+*::before,
+*::after{
+
+    box-sizing:border-box;
+
+}
+
+html{
+
+    font-size:16px;
+
+    -webkit-tap-highlight-color:transparent;
+
+}
+
+body{
+
+    margin:0;
+
+    font-family:var(--font-family);
+
+    background:var(--background);
+
+    color:var(--text);
+
+    transition:
+        background var(--transition-normal),
+        color var(--transition-normal);
+
+}
+
+/*
+===========================================
+ Layout
+===========================================
+*/
+
+#app{
+
+    min-height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+main{
+
+    flex:1;
+
+    padding:var(--space-lg);
+
+    padding-bottom:100px;
+
+}
+
+/*
+===========================================
+ Header
+===========================================
+*/
+
+.app-header{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:100;
+
+    background:var(--surface);
+
+    padding:18px 20px;
+
+    box-shadow:var(--shadow-small);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.app-title{
+
+    font-size:1.35rem;
+
+    font-weight:700;
+
+}
+
+/*
+===========================================
+ Cards
+===========================================
+*/
+
+.card{
+
+    background:var(--surface);
+
+    border-radius:var(--radius-large);
+
+    padding:20px;
+
+    margin-bottom:20px;
+
+    box-shadow:var(--shadow-small);
+
+}
+
+.card-title{
+
+    font-size:1.1rem;
+
+    font-weight:600;
+
+    margin-bottom:12px;
+
+}
+
+/*
+===========================================
+ Buttons
+===========================================
+*/
+
+button{
+
+    font:inherit;
+
+    cursor:pointer;
+
+    border:none;
+
+    transition:.2s;
+
+}
+
+.button{
+
+    padding:14px 22px;
+
+    border-radius:var(--radius-round);
+
+}
+
+.button-primary{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+.button-primary:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:var(--shadow-medium);
+
+}
+
+.button-secondary{
+
+    background:var(--surface-2);
+
+    color:var(--text);
+
+}
+
+/*
+===========================================
+ Floating Action Button
+===========================================
+*/
+
+.fab{
+
+    position:fixed;
+
+    right:24px;
+
+    bottom:88px;
+
+    width:64px;
+
+    height:64px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    box-shadow:var(--shadow-large);
+
+    z-index:500;
+
+}
+
+.fab:hover{
+
+    transform:scale(1.05);
+
+}
+
+/*
+===========================================
+ Formulare
+===========================================
+*/
+
+input,
+select,
+textarea{
+
+    width:100%;
+
+    padding:14px;
+
+    margin-top:8px;
+
+    margin-bottom:18px;
+
+    border-radius:var(--radius-medium);
+
+    border:1px solid #cccccc;
+
+    background:var(--surface);
+
+    color:var(--text);
+
+    font:inherit;
+
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+    outline:none;
+
+    border-color:var(--primary);
+
+}
+
+/*
+===========================================
+ Bottom Navigation
+===========================================
+*/
+
+.bottom-nav{
+
+    position:fixed;
+
+    left:0;
+
+    right:0;
+
+    bottom:0;
+
+    background:var(--surface);
+
+    display:flex;
+
+    justify-content:space-around;
+
+    padding:10px 0;
+
+    box-shadow:0 -3px 15px rgba(0,0,0,.08);
+
+    z-index:300;
+
+}
+
+.nav-item{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:4px;
+
+    color:var(--text-light);
+
+    background:none;
+
+    padding:8px 14px;
+
+    border-radius:var(--radius-medium);
+
+}
+
+.nav-item.active{
+
+    color:var(--primary);
+
+}
+
+/*
+===========================================
+ Snackbar
+===========================================
+*/
+
+#snackbar{
+
+    position:fixed;
+
+    left:50%;
+
+    bottom:110px;
+
+    transform:translateX(-50%) translateY(30px);
+
+    background:#222;
+
+    color:white;
+
+    padding:14px 20px;
+
+    border-radius:var(--radius-round);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.25s;
+
+    z-index:1000;
+
+}
+
+#snackbar.show{
+
+    opacity:1;
+
+    transform:translateX(-50%) translateY(0);
+
+}
+
+/*
+===========================================
+ Dialog
+===========================================
+*/
+
+dialog{
+
+    border:none;
+
+    border-radius:var(--radius-large);
+
+    padding:24px;
+
+    width:min(92vw,520px);
+
+    box-shadow:var(--shadow-large);
+
+}
+
+dialog::backdrop{
+
+    background:rgba(0,0,0,.45);
+
+}
+
+/*
+===========================================
+ Empty State
+===========================================
+*/
+
+.empty-state{
+
+    text-align:center;
+
+    padding:60px 20px;
+
+    color:var(--text-light);
+
+}
+
+.empty-state .material-symbols-rounded{
+
+    font-size:72px;
+
+    margin-bottom:16px;
+
+    color:var(--primary);
+
+}
