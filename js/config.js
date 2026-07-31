@@ -1,7 +1,7 @@
 /*
 ===========================================
  AquaTracker 4.0
- js/config.js
+ config.js
 ===========================================
 */
 
@@ -9,41 +9,35 @@
 
 const CONFIG = Object.freeze({
 
-    APP_NAME: "AquaTracker",
+    APP: {
 
-    VERSION: "4.0.0",
+        NAME: "AquaTracker",
+
+        VERSION: "4.0.0",
+
+        AUTHOR: "Sascha Orzech"
+
+    },
 
     STORAGE: {
 
         AQUARIUMS: "aquatracker.aquariums",
 
-        SETTINGS: "aquatracker.settings",
-
-        PRODUCTS: "aquatracker.products"
+        SETTINGS: "aquatracker.settings"
 
     },
 
     DATE: {
 
-        LOCALE: "de-DE",
+        LOCALE: "de-DE"
 
-        OPTIONS: {
+    },
 
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric"
+    UI: {
 
-        },
+        SNACKBAR_TIME: 3000,
 
-        DATETIME_OPTIONS: {
-
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
-
-        }
+        CARD_ANIMATION: 180
 
     },
 
@@ -57,75 +51,77 @@ const CONFIG = Object.freeze({
 
             VOLUME: 60,
 
-            DIMENSIONS: {
+            WIDTH: 60,
 
-                WIDTH: 60,
+            DEPTH: 30,
 
-                DEPTH: 30,
+            HEIGHT: 35,
 
-                HEIGHT: 35
+            PHOTO: "",
 
-            }
+            NOTES: ""
 
         },
 
-        MAINTENANCE: {
+        MAINTENANCE: [
 
-            WATER_CHANGE: {
+            {
 
-                ID: "water-change",
+                id: "water-change",
 
-                NAME: "Wasserwechsel",
+                name: "Wasserwechsel",
 
-                ICON: "water_drop",
+                icon: "water_drop",
 
-                INTERVAL: 7
+                interval: 7,
 
-            },
-
-            FILTER: {
-
-                ID: "filter",
-
-                NAME: "Filter reinigen",
-
-                ICON: "filter_alt",
-
-                INTERVAL: 30
+                enabled: true
 
             },
 
-            FERTILIZER: {
+            {
 
-                ID: "fertilizer",
+                id: "fertilizer",
 
-                NAME: "Düngen",
+                name: "Düngung",
 
-                ICON: "eco",
+                icon: "eco",
 
-                INTERVAL: 1
+                interval: 1,
+
+                enabled: true
 
             },
 
-            WATER_TEST: {
+            {
 
-                ID: "water-test",
+                id: "filter",
 
-                NAME: "Wasserwerte",
+                name: "Filter reinigen",
 
-                ICON: "science",
+                icon: "filter_alt",
 
-                INTERVAL: 14
+                interval: 30,
+
+                enabled: true
+
+            },
+
+            {
+
+                id: "water-test",
+
+                name: "Wasserwerte",
+
+                icon: "science",
+
+                interval: 14,
+
+                enabled: true
 
             }
 
-        }
-
-    },
-
-    UI: {
-
-        SNACKBAR_DURATION: 3000
+        ]
 
     }
 
