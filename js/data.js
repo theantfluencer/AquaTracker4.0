@@ -9,7 +9,7 @@
 
 const AppData = {
 
-    version: CONFIG.VERSION,
+    version: CONFIG.APP.VERSION,
 
     aquariums: []
 
