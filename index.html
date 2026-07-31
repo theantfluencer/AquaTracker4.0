@@ -19,9 +19,6 @@
     <link rel="manifest"
           href="manifest.json">
 
-    <link rel="icon"
-          href="assets/icons/icon-192.png">
-
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
 
@@ -39,93 +36,40 @@
           href="assets/css/variables.css">
 
     <link rel="stylesheet"
-          href="assets/css/reset.css">
-
-    <link rel="stylesheet"
-          href="assets/css/layout.css">
-
-    <link rel="stylesheet"
-          href="assets/css/components.css">
-
-    <link rel="stylesheet"
-          href="assets/css/pages.css">
-
-    <link rel="stylesheet"
           href="assets/css/app.css">
 
 </head>
 
 <body>
 
-    <div id="app">
+<div id="app">
 
-        <!-- Header -->
+    <main id="app-content"></main>
 
-        <header id="app-header"></header>
+    <button id="fab"
+            class="fab"
+            aria-label="Aquarium hinzufügen">
 
-        <!-- Hauptinhalt -->
+        <span class="material-symbols-rounded">
+            add
+        </span>
 
-        <main id="app-content">
+    </button>
 
-            <!-- Wird durch JavaScript gerendert -->
+</div>
 
-        </main>
+<dialog id="dialog"></dialog>
 
-        <!-- Bottom Navigation -->
+<div id="snackbar"
+     aria-live="polite"></div>
 
-        <nav id="bottom-navigation"></nav>
-
-        <!-- Floating Action Button -->
-
-        <button id="fab"
-                class="fab"
-                aria-label="Aquarium hinzufügen">
-
-            <span class="material-symbols-rounded">
-
-                add
-
-            </span>
-
-        </button>
-
-    </div>
-
-    <!-- Dialoge -->
-
-    <dialog id="dialog"></dialog>
-
-    <!-- Snackbar -->
-
-    <div id="snackbar"
-         aria-live="polite"></div>
-
-    <!-- Scripts -->
-
-    <script src="js/core/config.js"></script>
-    <script src="js/core/utils.js"></script>
-    <script src="js/core/storage.js"></script>
-    <script src="js/core/data.js"></script>
-    <script src="js/core/router.js"></script>
-
-    <script src="js/ui/theme.js"></script>
-    <script src="js/ui/snackbar.js"></script>
-    <script src="js/ui/dialog.js"></script>
-    <script src="js/ui/navigation.js"></script>
-
-    <script src="js/components/header.js"></script>
-    <script src="js/components/fab.js"></script>
-    <script src="js/components/empty-state.js"></script>
-    <script src="js/components/stat-card.js"></script>
-    <script src="js/components/aquarium-card.js"></script>
-
-    <script src="js/pages/dashboard.js"></script>
-    <script src="js/pages/aquarium.js"></script>
-    <script src="js/pages/calendar.js"></script>
-    <script src="js/pages/products.js"></script>
-    <script src="js/pages/settings.js"></script>
-
-    <script src="js/app.js"></script>
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/data.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/aquarium.js"></script>
+<script src="js/app.js"></script>
 
 </body>
 
