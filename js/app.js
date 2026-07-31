@@ -19,7 +19,7 @@ function initApp() {
 
     console.log(
 
-        `${CONFIG.APP_NAME} ${CONFIG.VERSION} gestartet`
+        `${CONFIG.APP_NAME} ${CONFIG.APP.VERSION} gestartet`
 
     );
 
