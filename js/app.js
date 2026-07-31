@@ -18,16 +18,14 @@ document.addEventListener("DOMContentLoaded", initApp);
 function initApp() {
 
     console.log(
-
-        `${CONFIG.APP_NAME} ${CONFIG.APP.VERSION} gestartet`
-
+        `${CONFIG.APP.NAME} ${CONFIG.APP.VERSION} gestartet`
     );
-
-    registerServiceWorker();
 
     initModules();
 
     initEvents();
+
+    registerServiceWorker();
 
 }
 
@@ -40,6 +38,8 @@ function initApp() {
 function initModules() {
 
     Data.init();
+
+    UI.init();
 
     Aquarium.init();
 
@@ -56,11 +56,8 @@ function initEvents() {
     initFab();
 
     window.addEventListener(
-
         "storage",
-
         handleStorageChange
-
     );
 
 }
@@ -80,7 +77,15 @@ function initFab() {
 
     fab.addEventListener("click", () => {
 
-        createAquarium();
+        if (typeof UI.showAquariumDialog === "function") {
+
+            UI.showAquariumDialog();
+
+        } else {
+
+            createAquarium();
+
+        }
 
     });
 
@@ -113,10 +118,7 @@ function createAquarium() {
 
 function handleStorageChange(event) {
 
-    if (
-        event.key !==
-        CONFIG.STORAGE.AQUARIUMS
-    )
+    if (event.key !== CONFIG.STORAGE.AQUARIUMS)
         return;
 
     Data.init();
@@ -136,24 +138,39 @@ function registerServiceWorker() {
     if (!("serviceWorker" in navigator))
         return;
 
-    navigator.serviceWorker
+    fetch("service-worker.js", {
+        method: "HEAD"
+    })
 
-        .register("service-worker.js")
+    .then(response => {
 
-        .then(() => {
+        if (!response.ok)
+            return;
+
+        return navigator.serviceWorker.register(
+            "service-worker.js"
+        );
+
+    })
+
+    .then(registration => {
+
+        if (registration) {
 
             console.log(
-
                 "Service Worker registriert"
-
             );
 
-        })
+        }
 
-        .catch(error => {
+    })
 
-            console.error(error);
+    .catch(() => {
 
-        });
+        console.log(
+            "Kein Service Worker vorhanden."
+        );
+
+    });
 
 }
