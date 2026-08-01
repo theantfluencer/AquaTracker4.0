@@ -52,8 +52,7 @@ const Aquarium = (() => {
 
                     <p>
                         Tippe auf das Plus-Symbol,
-                        um dein erstes Aquarium
-                        anzulegen.
+                        um dein erstes Aquarium anzulegen.
                     </p>
 
                 </section>
@@ -102,20 +101,7 @@ const Aquarium = (() => {
 
             <div class="aquarium-photo">
 
-                ${
-                    aquarium.photo
-
-                    ?
-
-                    `<img src="${aquarium.photo}"
-                          alt="${escapeHtml(aquarium.name)}">`
-
-                    :
-
-                    `<span class="material-symbols-rounded">
-                        aquarium
-                    </span>`
-                }
+                ${renderPhoto(aquarium)}
 
             </div>
 
@@ -129,7 +115,9 @@ const Aquarium = (() => {
 
                 <p>
 
-                    📍 ${escapeHtml(aquarium.location || "Kein Standort")}
+                    📍 ${escapeHtml(
+                        aquarium.location || "Kein Standort"
+                    )}
 
                 </p>
 
@@ -151,13 +139,25 @@ const Aquarium = (() => {
 
                 </div>
 
-                <button
-                    class="button button-primary open-aquarium"
-                    data-id="${aquarium.id}">
+                <div class="card-actions">
 
-                    Aquarium öffnen
+                    <button
+                        class="button button-primary open-aquarium"
+                        data-id="${aquarium.id}">
 
-                </button>
+                        Aquarium öffnen
+
+                    </button>
+
+                    <button
+                        class="button button-secondary edit-aquarium"
+                        data-id="${aquarium.id}">
+
+                        Bearbeiten
+
+                    </button>
+
+                </div>
 
             </div>
 
@@ -171,47 +171,291 @@ const Aquarium = (() => {
 
             });
 
+        card
+            .querySelector(".edit-aquarium")
+            .addEventListener("click", () => {
+
+                if (typeof UI.showAquariumDialog === "function") {
+
+                    UI.showAquariumDialog(aquarium);
+
+                }
+
+            });
+
         return card;
 
     }
 
     /*
     ===========================================
-     Wartungen
+     Aquariumfoto
+    ===========================================
+    */
+
+    function renderPhoto(aquarium) {
+
+        if (aquarium.photo) {
+
+            return `
+
+                <img
+                    src="${aquarium.photo}"
+                    alt="${escapeHtml(aquarium.name)}">
+
+            `;
+
+        }
+
+        return `
+
+            <span class="material-symbols-rounded">
+
+                aquarium
+
+            </span>
+
+        `;
+
+    }
+     /*
+    ===========================================
+     Aquarium öffnen
+    ===========================================
+    */
+
+    function open(id) {
+
+        const aquarium = Data.getAquarium(id);
+
+        if (!aquarium)
+            return;
+
+        renderDetail(aquarium);
+
+    }
+
+    /*
+    ===========================================
+     Detailansicht
+    ===========================================
+    */
+
+    function renderDetail(aquarium) {
+
+        container.innerHTML = "";
+
+        const health =
+            Data.calculateHealth(aquarium);
+
+        const page =
+            document.createElement("section");
+
+        page.className =
+            "aquarium-detail";
+
+        page.innerHTML = `
+
+            <button
+                class="button button-secondary back-button">
+
+                ← Dashboard
+
+            </button>
+
+            <div class="detail-header">
+
+                <div class="detail-photo">
+
+                    ${renderPhoto(aquarium)}
+
+                </div>
+
+                <h1>
+
+                    ${escapeHtml(aquarium.name)}
+
+                </h1>
+
+                <p>
+
+                    📍 ${escapeHtml(
+                        aquarium.location || "Kein Standort"
+                    )}
+
+                </p>
+
+                <p>
+
+                    💧 ${aquarium.volume} Liter
+
+                </p>
+
+                <div class="health">
+
+                    ❤️ ${health} %
+
+                </div>
+
+            </div>
+
+            <section class="detail-section">
+
+                <h2>
+
+                    Wartungen
+
+                </h2>
+
+                ${createMaintenanceList(aquarium)}
+
+            </section>
+
+            <section class="detail-section">
+
+                <h2>
+
+                    Schnellzugriff
+
+                </h2>
+
+                <div class="quick-grid">
+
+                    <button class="button">
+
+                        💧 Wasserwechsel
+
+                    </button>
+
+                    <button class="button">
+
+                        🌿 Düngung
+
+                    </button>
+
+                    <button class="button">
+
+                        🧪 Wasserwerte
+
+                    </button>
+
+                    <button class="button">
+
+                        🧽 Filter
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        `;
+
+        container.appendChild(page);
+
+        page.querySelector(".back-button")
+            .addEventListener("click", render);
+
+    }
+
+    /*
+    ===========================================
+     Wartungsliste
+    ===========================================
+    */
+
+    function createMaintenanceList(aquarium) {
+
+        return aquarium.maintenance
+
+            .filter(task => task.enabled)
+
+            .map(task => {
+
+                const status =
+                    Data.getMaintenanceStatus(task);
+
+                const state =
+                    status.due
+                        ? `<span class="danger">
+                                Überfällig
+                           </span>`
+                        : `<span class="success">
+                                OK
+                           </span>`;
+
+                return `
+
+                    <div class="maintenance-item">
+
+                        <div>
+
+                            <strong>
+
+                                ${icon(task.id)}
+                                ${escapeHtml(task.name)}
+
+                            </strong>
+
+                            <br>
+
+                            Alle
+                            ${task.interval}
+                            Tage
+
+                        </div>
+
+                        <div>
+
+                            ${state}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            })
+
+            .join("");
+
+    }
+     /*
+    ===========================================
+     Dashboard-Wartungen
     ===========================================
     */
 
     function getTopMaintenance(aquarium) {
 
         return aquarium.maintenance
+
             .filter(task => task.enabled)
+
             .slice(0, 4)
+
             .map(task => {
 
                 const status =
                     Data.getMaintenanceStatus(task);
 
-                let text;
+                let text = "";
 
                 if (status.overdue > 0) {
 
-                    text =
-                        `⚠️ +${status.overdue} Tage`;
+                    text = `⚠️ +${status.overdue} Tage`;
 
-                }
+                } else {
 
-                else {
-
-                    const rest =
+                    const remaining =
                         Math.max(
                             0,
                             task.interval - status.days
                         );
 
-                    text =
-                        rest === 0
+                    text = remaining === 0
                         ? "Heute"
-                        : `Noch ${rest} Tage`;
+                        : `Noch ${remaining} Tage`;
 
                 }
 
@@ -222,7 +466,6 @@ const Aquarium = (() => {
                         <span>
 
                             ${icon(task.id)}
-
                             ${escapeHtml(task.name)}
 
                         </span>
@@ -238,6 +481,7 @@ const Aquarium = (() => {
                 `;
 
             })
+
             .join("");
 
     }
@@ -255,17 +499,17 @@ const Aquarium = (() => {
             case "water-change":
                 return "💧";
 
-            case "filter":
-                return "🧽";
-
             case "fertilizer":
                 return "🌿";
+
+            case "filter":
+                return "🧽";
 
             case "water-test":
                 return "🧪";
 
             default:
-                return "✔️";
+                return "📋";
 
         }
 
@@ -273,190 +517,23 @@ const Aquarium = (() => {
 
     /*
     ===========================================
-     Aquarium öffnen
-    ===========================================
-    */
-
-   /*
-===========================================
- Aquarium öffnen
-===========================================
-*/
-
-function open(id) {
-
-    const aquarium = Data.getAquarium(id);
-
-    if (!aquarium)
-        return;
-
-    renderDetail(aquarium);
-
-}
-
-/*
-===========================================
- Detailansicht
-===========================================
-*/
-
-function renderDetail(aquarium) {
-
-    container.innerHTML = "";
-
-    const health = Data.calculateHealth(aquarium);
-
-    const page = document.createElement("section");
-
-    page.className = "aquarium-detail";
-
-    page.innerHTML = `
-
-        <button class="button back-button">
-
-            ← Dashboard
-
-        </button>
-
-        <div class="detail-header">
-
-            <div class="detail-photo">
-
-                ${
-                    aquarium.photo
-
-                    ?
-
-                    `<img src="${aquarium.photo}" alt="${escapeHtml(aquarium.name)}">`
-
-                    :
-
-                    `<span class="material-symbols-rounded">
-                        aquarium
-                    </span>`
-                }
-
-            </div>
-
-            <h1>${escapeHtml(aquarium.name)}</h1>
-
-            <p>📍 ${escapeHtml(aquarium.location || "Kein Standort")}</p>
-
-            <p>💧 ${aquarium.volume} Liter</p>
-
-            <div class="health">
-
-                ❤️ ${health} %
-
-            </div>
-
-        </div>
-
-        <section class="detail-section">
-
-            <h2>Wartungen</h2>
-
-            ${createMaintenanceList(aquarium)}
-
-        </section>
-
-        <section class="detail-section">
-
-            <h2>Schnellzugriff</h2>
-
-            <div class="quick-grid">
-
-                <button class="button">💧 Wasserwechsel</button>
-
-                <button class="button">🌱 Düngung</button>
-
-                <button class="button">🧪 Wasserwerte</button>
-
-                <button class="button">🧽 Filter</button>
-
-            </div>
-
-        </section>
-
-    `;
-
-    container.appendChild(page);
-
-    page.querySelector(".back-button")
-        .addEventListener("click", render);
-/*
-===========================================
- Wartungsliste
-===========================================
-*/
-
-function createMaintenanceList(aquarium) {
-
-    return aquarium.maintenance.map(task => {
-
-        const status =
-            Data.getMaintenanceStatus(task);
-
-        return `
-
-            <div class="maintenance-item">
-
-                <div>
-
-                    <strong>
-
-                        ${escapeHtml(task.name)}
-
-                    </strong>
-
-                    <br>
-
-                    Intervall:
-                    ${task.interval} Tage
-
-                </div>
-
-                <div>
-
-                    ${
-                        status.due
-
-                        ?
-
-                        `<span class="danger">
-                            Überfällig
-                        </span>`
-
-                        :
-
-                        `<span class="success">
-                            OK
-                        </span>`
-                    }
-
-                </div>
-
-            </div>
-
-        `;
-
-    }).join("");
-
-}
-}
-    ===========================================
      HTML absichern
     ===========================================
     */
 
-    function escapeHtml(value) {
+    function escapeHtml(text) {
 
-        return String(value)
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll("\"", "&quot;")
-            .replaceAll("'", "&#39;");
+        return String(text ?? "")
+
+            .replace(/&/g, "&amp;")
+
+            .replace(/</g, "&lt;")
+
+            .replace(/>/g, "&gt;")
+
+            .replace(/"/g, "&quot;")
+
+            .replace(/'/g, "&#39;");
 
     }
 
