@@ -1,1 +1,25 @@
+{
+    "name": "AquaTracker 4.0",
+    "short_name": "AquaTracker",
+    "description": "Professionelle Aquariumverwaltung",
+    "start_url": "./",
+    "scope": "./",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#F5F7FA",
+    "theme_color": "#2FBF71",
+    "lang": "de",
 
+    "icons": [
+        {
+            "src": "assets/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
