@@ -428,49 +428,73 @@ const Aquarium = (() => {
 
     function getTopMaintenance(aquarium) {
 
-        return aquarium.maintenance
+    return aquarium.maintenance
 
-            .filter(task => task.enabled)
+        .filter(task => task.enabled)
 
-            .slice(0, 4)
+        .slice(0, 4)
 
-            .map(task => {
+        .map(task => {
 
-                const status =
-                    Data.getMaintenanceStatus(task);
+            const status =
+                Data.getMaintenanceStatus(task);
 
-                let text = "";
+            const remaining =
+                Math.max(
+                    0,
+                    task.interval - status.days
+                );
 
-                if (status.overdue > 0) {
+            const progress =
+                Math.min(
+                    100,
+                    Math.round(
+                        (status.days / task.interval) * 100
+                    )
+                );
 
-                    text = `⚠️ +${status.overdue} Tage`;
+            let color = "#2FBF71";
+            let text = "";
 
-                } else {
+            if (status.overdue > 0) {
 
-                    const remaining =
-                        Math.max(
-                            0,
-                            task.interval - status.days
-                        );
+                color = "#d63031";
 
-                    text = remaining === 0
-                        ? "Heute"
-                        : `Noch ${remaining} Tage`;
+                text =
+                    `${status.overdue} Tage überfällig`;
 
-                }
+            }
 
-                return `
+            else if (remaining === 0) {
 
-                    <div class="maintenance-row">
+                color = "#ff9800";
+
+                text = "Heute";
+
+            }
+
+            else {
+
+                text =
+                    `${remaining} Tage`;
+
+            }
+
+            return `
+
+                <div class="maintenance-card">
+
+                    <div class="maintenance-header">
 
                         <span>
 
                             ${icon(task.id)}
+
                             ${escapeHtml(task.name)}
 
                         </span>
 
-                        <strong>
+                        <strong style="color:${color}">
 
                             ${text}
 
@@ -478,13 +502,27 @@ const Aquarium = (() => {
 
                     </div>
 
-                `;
+                    <div class="progress">
 
-            })
+                        <div
+                            class="progress-bar"
 
-            .join("");
+                            style="width:${progress}%;
+                                   background:${color};">
 
-    }
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        })
+
+        .join("");
+
+}
 
     /*
     ===========================================
