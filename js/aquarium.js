@@ -127,9 +127,53 @@ const Aquarium = (() => {
 
                 </p>
 
-                <div class="health">
+               <div class="health-card">
 
-                    ❤️ ${health} %
+    <div class="health-circle">
+
+        <svg viewBox="0 0 120 120">
+
+            <circle
+                class="health-bg"
+                cx="60"
+                cy="60"
+                r="50">
+            </circle>
+
+            <circle
+                class="health-progress"
+                cx="60"
+                cy="60"
+                r="50"
+                style="
+                    stroke-dasharray:314;
+                    stroke-dashoffset:${314 - (314 * health / 100)};
+                ">
+            </circle>
+
+        </svg>
+
+        <span>
+
+            ${health}%
+
+        </span>
+
+    </div>
+
+    <div class="health-text">
+
+        <strong>Gesundheitsindex</strong>
+
+        <small>
+
+            ${getHealthText(health)}
+
+        </small>
+
+    </div>
+
+</div>
 
                 </div>
 
