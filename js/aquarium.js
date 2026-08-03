@@ -401,7 +401,23 @@ const Aquarium = (() => {
             .addEventListener("click", render);
 
     }
+function getHealthText(value){
 
+    if(value >= 95)
+        return "Perfekter Zustand";
+
+    if(value >= 80)
+        return "Alles in Ordnung";
+
+    if(value >= 60)
+        return "Wartung empfohlen";
+
+    if(value >= 40)
+        return "Bald eingreifen";
+
+    return "Sofort handeln";
+
+}
     /*
     ===========================================
      Wartungsliste
