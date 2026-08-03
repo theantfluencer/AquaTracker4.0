@@ -870,3 +870,102 @@ dialog::backdrop{
     }
 
 }
+/*
+===========================================
+Health Ring
+===========================================
+*/
+
+.health-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    margin:22px 0;
+
+}
+
+.health-circle{
+
+    position:relative;
+
+    width:86px;
+
+    height:86px;
+
+}
+
+.health-circle svg{
+
+    width:86px;
+
+    height:86px;
+
+    transform:rotate(-90deg);
+
+}
+
+.health-bg{
+
+    fill:none;
+
+    stroke:#e7e7e7;
+
+    stroke-width:8;
+
+}
+
+.health-progress{
+
+    fill:none;
+
+    stroke:#2FBF71;
+
+    stroke-width:8;
+
+    stroke-linecap:round;
+
+    transition:.4s;
+
+}
+
+.health-circle span{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:700;
+
+    font-size:1rem;
+
+}
+
+.health-text{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.health-text strong{
+
+    font-size:1rem;
+
+}
+
+.health-text small{
+
+    color:#666;
+
+}
