@@ -730,3 +730,143 @@ dialog::backdrop{
     font-weight:700;
 
 }
+/*
+===========================================
+ AquaTracker Premium UI
+===========================================
+*/
+
+.aquarium-card{
+
+    position:relative;
+
+    border:1px solid rgba(255,255,255,.25);
+
+    backdrop-filter:blur(12px);
+
+}
+
+.aquarium-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    right:0;
+    top:0;
+
+    height:6px;
+
+    background:linear-gradient(
+        90deg,
+        #00c853,
+        #64dd17,
+        #00b0ff
+    );
+
+}
+
+.health{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.health::before{
+
+    content:"❤️";
+
+    font-size:22px;
+
+}
+
+.maintenance-row{
+
+    padding:14px 0;
+
+    transition:.2s;
+
+}
+
+.maintenance-row:hover{
+
+    background:rgba(47,191,113,.08);
+
+    border-radius:12px;
+
+    padding-left:10px;
+
+    padding-right:10px;
+
+}
+
+.button{
+
+    font-weight:600;
+
+}
+
+.button-primary{
+
+    background:linear-gradient(
+        90deg,
+        #2FBF71,
+        #20A85D
+    );
+
+}
+
+.button-primary:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.detail-section{
+
+    transition:.25s;
+
+}
+
+.detail-section:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.quick-grid button{
+
+    min-height:90px;
+
+    font-size:1rem;
+
+}
+
+.quick-grid button:hover{
+
+    background:#E8F8EF;
+
+}
+
+@media (max-width:700px){
+
+    .aquarium-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .aquarium-photo{
+
+        height:180px;
+
+    }
+
+}
